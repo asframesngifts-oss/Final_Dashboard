@@ -441,7 +441,7 @@ function addOrder() {
   const advance = parseFloat(document.getElementById('f_advance').value) || 0;
   const o = {
     id: Date.now(), name, phone,
-    size: document.getElementById('f_size').value === 'Custom' ? document.getElementById('f_custom_size_val').value.trim() || 'Custom' : document.getElementById('f_size').value,,
+    size: document.getElementById('f_size').value === 'Custom' ? document.getElementById('f_custom_size_val').value.trim() || 'Custom' : document.getElementById('f_size').value,
     notes: document.getElementById('f_notes').value,
     status: 'New', amount, advance,
     balance: Math.max(0, amount - advance),
