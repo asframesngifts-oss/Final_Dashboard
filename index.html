@@ -113,8 +113,7 @@ tbody td{padding:8px 10px;vertical-align:middle}
   <div style="background:#fff;border:0.5px solid rgba(0,0,0,0.1);border-radius:16px;padding:2.5rem 2rem;width:90%;max-width:340px;text-align:center">
     <div style="font-size:22px;font-weight:600;margin-bottom:.25rem">AS <span style="color:#D85A30">Frames</span></div>
     <div style="font-size:13px;color:#6b6a65;margin-bottom:1.5rem">Enter password to continue</div>
-    <input id="pwInput" type="password" placeholder="Password" style="width:100%;padding:10px 14px;border:0.5px solid rgba(0,0,0,0.18);border-radius:10px;font-size:15px;text-align:center;margin-bottom:.75rem;background:#fff;color:#1a1a18" onkeydown="if(event.key==='Enter')checkPw()">
-    <button onclick="checkPw()" style="width:100%;padding:10px;background:#D85A30;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:500;cursor:pointer">Unlock</button>
+    <input id="pwInput" type="password" placeholder="Password" autocomplete="off" style="width:100%;padding:10px 14px;border:0.5px solid rgba(0,0,0,0.18);border-radius:10px;font-size:15px;text-align:center;margin-bottom:.75rem;background:#fff;color:#1a1a18" onkeydown="if(event.key==='Enter')checkPw()">    <button onclick="checkPw()" style="width:100%;padding:10px;background:#D85A30;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:500;cursor:pointer">Unlock</button>
     <div id="pwError" style="color:#993C1D;font-size:12px;margin-top:.6rem;display:none">Incorrect password. Try again.</div>
   </div>
 </div>
@@ -517,7 +516,6 @@ function render() {
     tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:2.5rem;color:var(--text2);font-size:13px">No orders found. <span style="color:var(--accent);cursor:pointer;text-decoration:underline" onclick="syncFromSheet()">Click to sync from Google Sheet</span></td></tr>';
     return;
   }
-  }
   filtered.forEach(o => {
     const idx = orders.indexOf(o);
     const minsAgo = o.lastMsg ? Math.floor((Date.now() - o.lastMsg) / 60000) : 9999;
@@ -638,25 +636,14 @@ updateStats();
   localStorage.removeItem('asf_auth');
   document.getElementById('lockScreen').style.display='flex';
 }
-function checkPw(){
-  const val = document.getElementById('pwInput').value;
-  if(val === 'Asframes@2024'){
-    document.getElementById('lockScreen').style.display = 'none';
-    document.getElementById('appContent').style.display = 'block';
-    localStorage.setItem('asf_auth', 'Asframes@2024');
-  } else {
-    document.getElementById('pwError').style.display = 'block';
-    document.getElementById('pwInput').value = '';
-    document.getElementById('pwInput').focus();
-  }
-}
-// Check session — stays logged in while tab is open, resets when tab closes
-if(localStorage.getItem('asf_auth') === 'Asframes@2024'){
-  document.getElementById('lockScreen').style.display = 'none';
-  document.getElementById('appContent').style.display = 'block';
+function logout(){
+  if(!confirm('Logout from AS Frames?')) return;
+  localStorage.removeItem('asf_auth');
+  document.getElementById('lockScreen').style.display='flex';
+  document.getElementById('pwInput').value='';
+  document.getElementById('pwError').style.display='none';
 }
 </script>
-
 <!-- Customer Khata Modal -->
 <div class="overlay" id="khataModal">
 <div class="modal" style="max-width:620px">
