@@ -160,7 +160,8 @@ if(localStorage.getItem('asf_auth')==='1'){
       <span id="syncLabel">Not connected</span>
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button class="btn" onclick="syncFromSheet()" title="Pull latest orders from Google Sheet">↻ Sync</button>
+     <button class="btn" onclick="syncFromSheet()" title="Pull latest orders from Google Sheet">↻ Sync</button>
+     <button class="btn" style="border-color:#993C1D;color:#993C1D" onclick="logout()">Logout</button>
       
     <button class="btn" style="border-color:#534AB7;color:#534AB7" onclick="openKhata()">Customer Khata</button>
       <button class="btn primary" onclick="openModal('add')">+ New Order</button>
@@ -630,6 +631,11 @@ updateStats();
 </div>
 
 <script>
+  function logout(){
+  if(!confirm('Logout from AS Frames?')) return;
+  localStorage.removeItem('asf_auth');
+  document.getElementById('lockScreen').style.display='flex';
+}
 function checkPw(){
   const val = document.getElementById('pwInput').value;
   if(val === 'Asframes@2024'){
