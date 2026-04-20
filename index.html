@@ -513,8 +513,9 @@ function render() {
     (!sf || o.status === sf)
   );
   if (!filtered.length) {
-    tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:2.5rem;color:var(--text2);font-size:13px">No orders. Click "+ New Order" or sync from Google Sheet.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:2.5rem;color:var(--text2);font-size:13px">No orders found. <span style="color:var(--accent);cursor:pointer;text-decoration:underline" onclick="syncFromSheet()">Click to sync from Google Sheet</span></td></tr>';
     return;
+  }
   }
   filtered.forEach(o => {
     const idx = orders.indexOf(o);
@@ -687,6 +688,7 @@ function openKhata(){
       orders = [...data.orders.map(o => ({...o, lastMsg:o.lastMsg||null, created:o.created||Date.now(), fromPortal:o.fromPortal||false})), ...localOnly];
       saveLocal();
       render(); updateStats();
+      if(WEBHOOK_URL) syncFromSheet();
     }
     document.getElementById('khataResults').innerHTML='<p style="color:var(--text2);font-size:13px;text-align:center;padding:1rem">✅ '+orders.length+' orders loaded. Enter name or phone and click Search</p>';
     document.getElementById('khataSearch').focus();
